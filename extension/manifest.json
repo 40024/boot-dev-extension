@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Boot.dev Go Sync",
+    "version": "1.0.0",
+    "description": "Sync Boot.dev lesson code to a local file.",
+    "host_permissions": [
+        "http://127.0.0.1:8765/*"
+    ],
+    "permissions": [],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://boot.dev/*",
+                "https://www.boot.dev/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ]
+}
