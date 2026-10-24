@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/subtle"
 	"fmt"
 	"io"
 	"log"
@@ -15,6 +16,7 @@ func main() {
 	// 	log.Fatal(err)
 	// }
 
+	token := "af79848bb6d5b2a1ee7114033ba52a4788daa41bf9103144736a47f6a3e5e047"
 
 	output := "/tmp/main.go"
 	// if err := os.MkdirAll(filepath.Dir(output), 0755); err != nil {
@@ -22,6 +24,17 @@ func main() {
 	// }
 
 	http.HandleFunc("/code", func(w http.ResponseWriter, r *http.Request) {
+		provided := r.Header.Get("X-Sync-Token")
+
+		if subtle.ConstantTimeCompare(
+			[]byte(provided),
+			[]byte(token),
+		) != 1 {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			log.Println("[Go Sync] Rejected request: invalid token")
+			return
+		}
+
 		if r.Method != http.MethodPost {
 			http.Error(w, "POST required", http.StatusMethodNotAllowed)
 			return

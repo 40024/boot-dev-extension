@@ -1,10 +1,10 @@
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
     if (message.type !== "SYNC_CODE") return;
 
     fetch("http://127.0.0.1:8765/code", {
         method: "POST",
-        headers: { "Content-Type": "text/plain" },
+        headers: { "Content-Type": "text/plain", "X-Sync-Token": "af79848bb6d5b2a1ee7114033ba52a4788daa41bf9103144736a47f6a3e5e047" },
         body: message.code
     })
         .then(response => {
