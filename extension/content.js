@@ -1,6 +1,5 @@
 (() => {
     const SELECTOR = '[aria-label="Code editor"]';
-    const ENDPOINT = "http://127.0.0.1:8765/code";
 
     let lastCode = "";
     let inFlightCode = "";
@@ -55,7 +54,7 @@
         timer = setTimeout(syncCode, 400);
     }
 
-    // Watch the editor's DOM for changes.
+    // Watch DOM for changes
     const observer = new MutationObserver(scheduleSync);
 
     observer.observe(document.documentElement, {
@@ -64,7 +63,7 @@
         characterData: true
     });
 
-    // Detect navigation in Boot.dev's single-page application.
+    // Detect navigation in Boot.dev's SPA
     setInterval(() => {
         if (location.href !== lastUrl) {
             lastUrl = location.href;
